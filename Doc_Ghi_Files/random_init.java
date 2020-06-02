@@ -108,6 +108,7 @@ public class random_init {
     	random_init run = new random_init();
     	
     	//cac tham so N, M, numOfConflict co the chinh sua:
+	///// Co the sua cho nay de tao ra cac file voi du lieu khac nhau
     	int N = run.N = 3;
     	int M = run.M = 4;
     	int numOfConflict = run.numOfConflict = 2;
@@ -116,7 +117,6 @@ public class random_init {
     	run.create_data(N, M, numOfConflict);
     	run.result();
     	try {
-    		///// Co the sua cho nay de tao ra cac file voi du lieu khac nhau
     		/// File kqua se co dang Vd: 3class-4room-2conflict.txt
     		///Can sua them rootpath o ham nay de xac dinh vi tri luu file
 			run.writeFile(N, M, numOfConflict); ////
