@@ -88,7 +88,7 @@ public class random_init {
 	        outputStreamWriter.write(temp + "\n");
 	        
 	        //ghi cac mang chua thong tin lop conflict - moi mang I1, I2 tren 1 hang:
-	        temp += "";
+	        temp = "";
 	        for(int i = 0; i<conflictNum; i++) {
 	        	temp += I1[i];
 	        }
