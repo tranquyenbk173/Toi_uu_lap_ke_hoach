@@ -24,11 +24,13 @@ public class random_init {
     	}
     	
     	for(int i = 0; i<conflictNum; i++) {
-    		I1[i] = generator.nextInt(N+1); // gioi han trong so luong lop thi
-    		I2[i] = generator.nextInt(N+1);
+    		I1[i] = generator.nextInt(N) + 1; // gioi han trong so luong lop thi
+    		I2[i] = generator.nextInt(N) + 1;
+    		
     		while (I2[i] == I1[i]) {
-    			I2[i] = generator.nextInt(N+1);
+    			I2[i] = generator.nextInt(N) + 1;
     		}
+    		
     	}
     }
     
