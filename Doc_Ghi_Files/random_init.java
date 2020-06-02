@@ -114,7 +114,10 @@ public class random_init {
     	run.create_data(N, M, numOfConflict);
     	run.result();
     	try {
-			run.writeFile(N, M, numOfConflict);
+    		///// Co the sua cho nay de tao ra cac file voi du lieu khac nhau
+    		/// File kqua se co dang Vd: 3class-4room-2conflict.txt
+    		///Can sua them rootpath o ham nay de xac dinh vi tri luu file
+			run.writeFile(N, M, numOfConflict); ////
 			System.out.println("Da xuat du lieu xong!!!");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
