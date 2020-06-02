@@ -90,13 +90,13 @@ public class random_init {
 	        //ghi cac mang chua thong tin lop conflict - moi mang I1, I2 tren 1 hang:
 	        temp = "";
 	        for(int i = 0; i<conflictNum; i++) {
-	        	temp += I1[i];
+	        	temp += I1[i] + " ";
 	        }
 	        outputStreamWriter.write(temp + "\n");
 	        
 	        temp = "";
 	        for(int i = 0; i<conflictNum; i++) {
-	        	temp += I2[i];
+	        	temp += I2[i] + " ";
 	        }
 	        outputStreamWriter.write(temp);
 
