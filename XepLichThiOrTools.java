@@ -22,7 +22,7 @@ private int N, M, numOfConflict, c[], d[], I1[], I2[]; // cac du lieu muon lay
 		// Co the dung dong file de doc lien tiep cac file de thu (ls > names_file)
 		String rootpath = "/media/quyentran/A23622BE36229379/A.School/"
     			+ "Toi_uu_lap_KH/Code_/Or-tools/examples/java/my_work/data/";
-    	String filename = "3class-4room-2conflict.txt";
+    	String filename = "5class-4room-2conflict.txt";
     	System.out.println("File name: " + filename); 
     	
     	File file = new File(rootpath + filename);
@@ -76,10 +76,14 @@ private int N, M, numOfConflict, c[], d[], I1[], I2[]; // cac du lieu muon lay
 		for(int i = 0; i<numOfConflict; i++) {
 			System.out.print(I2[i] + " ");
 		}
+		System.out.println();
 	}
 	
 	public void solve() {
 		int MAX = 1000000000;
+		long startTime;
+	    long endTime;
+	    startTime = System.currentTimeMillis();
 		
 		MPSolver solver = new MPSolver("XepLichThi", 
 				MPSolver.OptimizationProblemType.CBC_MIXED_INTEGER_PROGRAMMING);
@@ -137,15 +141,16 @@ private int N, M, numOfConflict, c[], d[], I1[], I2[]; // cac du lieu muon lay
 			}	
 		}
 		
-//		//Tai 1 phong, 1 kip chi thi nhieu nhat 1 mon:
-//		for(int j = 1; j<=M; j++) {
-//			for(int k = 1; k<=N; k++) {
-//				MPConstraint c5 = solver.makeConstraint(1, 1);
-//				for(int i = 1; i<=N; i++) {
-//					c5.setCoefficient(X[i][j][k], 1);
-//				}
-//			}
-//		}
+		////////////// REMOVE this
+		//Tai 1 phong, 1 kip chi thi nhieu nhat 1 mon:
+		for(int j = 1; j<=M; j++) {
+			for(int k = 1; k<=N; k++) {
+				MPConstraint c5 = solver.makeConstraint(0, 1);
+				for(int i = 1; i<=N; i++) {
+					c5.setCoefficient(X[i][j][k], 1);
+				}
+			}
+		}
 		
 		//Rang buoc giua X va y:
 		for(int i = 1; i<=N; i++) {
@@ -167,26 +172,42 @@ private int N, M, numOfConflict, c[], d[], I1[], I2[]; // cac du lieu muon lay
 		obj.setMinimization();
 		
 		MPSolver.ResultStatus rs = solver.solve();
+		
+//		while(solver.solve() != null) {
+//			System.out.println("\n\nobj = " + obj.value());
+//			for(int i = 01; i<=N; i++) {
+//				for(int k = 1; k<=N; k++)
+//				for(int j = 01; j<=M; j++) {
+//					if(X[i][j][k].solutionValue() == 1) {
+//						System.out.print("Mon " + i + " thi phong " + j);
+//						System.out.println(" kip thu" + k);					
+//					}
+//				}
+//			}
+//			System.out.println("--------------------------------");
+//				
+//		}
+		
 		if(rs != MPSolver.ResultStatus.OPTIMAL) {
 			System.out.println("\n\nCannot find optimal solution!");
+			System.out.println(rs);
 		}else {
+			System.out.println("Rs: " + rs);
 			System.out.println("\n\nobj = " + obj.value());
 			for(int i = 01; i<=N; i++) {
-//				if (true) {
-//					System.out.println("Mon " + i + " thi kip " + Y[i].solutionValue());
-//				}
 				for(int k = 1; k<=N; k++)
 				for(int j = 01; j<=M; j++) {
 					if(X[i][j][k].solutionValue() == 1) {
 						System.out.print("Mon " + i + " thi phong " + j);
-						System.out.println(" kip thu" + k);
-						
+						System.out.println(" kip thu" + k);					
 					}
 				}
 				
 			}
 
 		}
+		endTime = System.currentTimeMillis();
+        System.out.println("Run time: " + (endTime - startTime)/1000.0 +  "s");
 		
 	}
 	
