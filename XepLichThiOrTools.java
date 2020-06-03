@@ -55,6 +55,29 @@ private int N, M, numOfConflict, c[], d[], I1[], I2[]; // cac du lieu muon lay
     	
 	}
 	
+	public void result() {
+		System.out.println(N + " " + M + " " + numOfConflict);
+		
+		for(int i = 0; i<N; i++) {
+			System.out.print(d[i] + " ");
+		}
+		System.out.println();
+		
+		for(int i = 0; i<M; i++) {
+			System.out.print(c[i] + " ");
+		}
+		System.out.println();
+		
+		for(int i = 0; i<numOfConflict; i++) {
+			System.out.print(I1[i] + " ");
+		}
+		System.out.println();
+		
+		for(int i = 0; i<numOfConflict; i++) {
+			System.out.print(I2[i] + " ");
+		}
+	}
+	
 	public void solve() {
 		int MAX = 1000000000;
 		
@@ -70,12 +93,6 @@ private int N, M, numOfConflict, c[], d[], I1[], I2[]; // cac du lieu muon lay
 				for(int k = 1; k<=N; k++)
 					X[i][j][k] = solver.makeIntVar(0, 1, "X[" + i + "," + j +  "," + k +"]");		
 			}
-		}
-		
-		//Y[i] = kip thi cua mon i:
-		MPVariable[] Y = new MPVariable[N+1];
-		for(int i = 1; i<=N; i++) {
-			Y[i] = solver.makeIntVar(1, N, "Y[" + i + "]");
 		}
 		
 		
@@ -109,43 +126,40 @@ private int N, M, numOfConflict, c[], d[], I1[], I2[]; // cac du lieu muon lay
 			}
 		}
 		
-		//Rang buoc moi mon trong 1 kip chi thi 1 phong trong 1 kip nao do.
+		//Rang buoc moi mon chi thi 1 phong trong 1 kip nao do.
 		for(int i = 1; i<=N; i++) {
 			MPConstraint c4 = solver.makeConstraint(1, 1);
 			for(int k = 1; k<=N; k++) {	
+				
 				for(int j = 1; j<=M; j++) {
 					c4.setCoefficient(X[i][j][k], 1);
 				}
 			}	
 		}
 		
-		//Tai 1 phong, 1 kip chi thi nhieu nhat 1 mon:
-		for(int j = 1; j<=M; j++) {
-			for(int k = 1; k<=N; k++) {
-				MPConstraint c5 = solver.makeConstraint(1, 1);
-				for(int i = 1; i<=N; i++) {
-					c5.setCoefficient(X[i][j][k], 1);
+//		//Tai 1 phong, 1 kip chi thi nhieu nhat 1 mon:
+//		for(int j = 1; j<=M; j++) {
+//			for(int k = 1; k<=N; k++) {
+//				MPConstraint c5 = solver.makeConstraint(1, 1);
+//				for(int i = 1; i<=N; i++) {
+//					c5.setCoefficient(X[i][j][k], 1);
+//				}
+//			}
+//		}
+		
+		//Rang buoc giua X va y:
+		for(int i = 1; i<=N; i++) {
+			for(int k = 1; k<=N; k++) {	
+				for(int j = 1; j<=M; j++) {
+					MPConstraint c6 = solver.makeConstraint(0, MAX);
+					c6.setCoefficient(X[i][j][k], -k);
+					c6.setCoefficient(y, 1);
+					
 				}
+				
 			}
 		}
 		
-		//Rang buoc giua X va Y:
-		for(int i = 1; i<=N; i++) {
-			for(int k = 1; k<=N; k++) {
-				MPConstraint c6 = solver.makeConstraint(k+1, k+1);
-				for(int j = 1; j<=N; j++) {
-					c6.setCoefficient(X[i][j][k], 1);
-				}
-				c6.setCoefficient(Y[i], 1);
-			}
-		}
-		
-		//Rang buoc gia tri kip thi lon nhat:
-		MPConstraint c5 = solver.makeConstraint(0, MAX);
-		c5.setCoefficient(y, 1);
-		for(int i = 1; i<=N; i++) {
-			c5.setCoefficient(Y[i], -1);
-		}
 		
 		//Ham muc tieu
 		MPObjective obj = solver.objective();
@@ -154,12 +168,15 @@ private int N, M, numOfConflict, c[], d[], I1[], I2[]; // cac du lieu muon lay
 		
 		MPSolver.ResultStatus rs = solver.solve();
 		if(rs != MPSolver.ResultStatus.OPTIMAL) {
-			System.out.println("Cannot find optimal solution!");
+			System.out.println("\n\nCannot find optimal solution!");
 		}else {
-			System.out.println("obj = " + obj.value());
+			System.out.println("\n\nobj = " + obj.value());
 			for(int i = 01; i<=N; i++) {
+//				if (true) {
+//					System.out.println("Mon " + i + " thi kip " + Y[i].solutionValue());
+//				}
 				for(int k = 1; k<=N; k++)
-				for(int j = 01; j<=N; j++) {
+				for(int j = 01; j<=M; j++) {
 					if(X[i][j][k].solutionValue() == 1) {
 						System.out.print("Mon " + i + " thi phong " + j);
 						System.out.println(" kip thu" + k);
@@ -177,7 +194,9 @@ private int N, M, numOfConflict, c[], d[], I1[], I2[]; // cac du lieu muon lay
 		XepLichThiOrTools run = new XepLichThiOrTools();
 		try {
 			run.readFile();
+			run.result();
 			run.solve();
+			System.out.println("Done!");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
