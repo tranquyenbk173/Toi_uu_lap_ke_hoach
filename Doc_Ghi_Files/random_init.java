@@ -14,21 +14,23 @@ public class random_init {
     	d = new int[N];
     	I1 = new int[conflictNum];
     	I2 = new int[conflictNum];
+	cMax = -1;
     	
     	for(int i = 0; i<M; i++) {
     		c[i] = generator.nextInt(300);
+		if (cMax > c[i]) cMax = c[i];
     	}
     	
     	for(int i = 0; i<N; i++) {
-    		d[i] = generator.nextInt(300);
+    		d[i] = generator.nextInt(cMax);
     	}
     	
     	for(int i = 0; i<conflictNum; i++) {
-    		I1[i] = generator.nextInt(N) + 1; // gioi han trong so luong lop thi
-    		I2[i] = generator.nextInt(N) + 1;
+    		I1[i] = generator.nextInt(N); // gioi han trong so luong lop thi
+    		I2[i] = generator.nextInt(N);
     		
     		while (I2[i] == I1[i]) {
-    			I2[i] = generator.nextInt(N) + 1;
+    			I2[i] = generator.nextInt(N);
     		}
     		
     	}
@@ -59,7 +61,7 @@ public class random_init {
     
     public void writeFile(int N, int M, int conflictNum) throws IOException {
     	String rootpath = "/media/quyentran/A23622BE36229379/A.School/"
-    			+ "Toi_uu_lap_KH/Code_/Or-tools/examples/java/my_work/data/";
+    			+ "Toi_uu_lap_KH/Code_/Or-tools/examples/java/my_work/data/"; // sua root path cho phu hop
     	String filename = N + "class-" + M + "room-" + conflictNum + "conflict.txt";
     	System.out.println("File name: " + filename);
     	
@@ -118,7 +120,7 @@ public class random_init {
     	run.result();
     	try {
     		/// File kqua se co dang Vd: 3class-4room-2conflict.txt
-    		///Can sua them rootpath o ham nay de xac dinh vi tri luu file
+    		///Can sua them rootpath de xac dinh vi tri luu file
 			run.writeFile(N, M, numOfConflict); ////
 			System.out.println("Da xuat du lieu xong!!!");
 		} catch (IOException e) {
