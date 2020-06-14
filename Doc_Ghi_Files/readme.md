@@ -1,7 +1,8 @@
----- Chay file `random_init.java` de tao cac file du lieu truoc. 
+## Chay file `random_init.java` de tao cac file du lieu truoc. 
+
 (Mo file len roi chay theo huong dan o ham main, nho sua rootpath)
 
----- Chay file `read_file.java` de doc du lieu -- lay code tu file nay!!!!
+## Chay file `read_file.java` de doc du lieu -- lay code tu file nay!!!!
 
 __________________
 Dữ liệu sử dụng sẽ được lưu theo định dangj:
