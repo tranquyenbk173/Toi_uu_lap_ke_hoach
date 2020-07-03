@@ -6,10 +6,15 @@
 
 __________________
 Dữ liệu sử dụng sẽ được lưu theo định dangj:
+
 N M numOfConfllict
+
 di....
+
 cj...
+
 I1...
+
 I2...
 
 Vd:
